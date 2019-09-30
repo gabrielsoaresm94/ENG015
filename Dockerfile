@@ -1,8 +1,4 @@
 FROM ubuntu:18.10
-# FROM ubuntu:16.04
-
-# RUN add-apt-repository ppa:ubuntugis/ppa
-# RUN deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu xenial main 
 
 RUN apt-get update
 RUN apt-get install -y python3 python3-dev python3-pip nginx
