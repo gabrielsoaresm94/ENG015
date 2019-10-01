@@ -32,6 +32,7 @@ print("Bottom right corner coordinates: {}".format(botright))
 
 print(sat_data.count)
 
+# IMPORTANTE
 # sequence of band indexes
 print(sat_data.indexes)
 
@@ -41,6 +42,6 @@ b, g, r = sat_data.read()
 # fig.set_cmap('inferno')
 # plt.colorbar()
 
-fig = plt.imsave("./{}/trab.jpg".format(save), r)
+# fig = plt.imsave("./{}/trab.jpg".format(save), r)
 
 plt.show()
