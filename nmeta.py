@@ -3,6 +3,14 @@ from osgeo import gdal
 filename = './input/landsat.tif'
 
 dataset = gdal.OpenEx(filename)
+md = dataset.GetRasterBand(1).GetStatistics(0,1)
+add = dataset.AddBand(11) # GDALDataType eType, char **papszOptions = nullptr
+multi = dataset.RasterIO(GDALDataType=11)
+print(md)
+print(add)
+print(multi)
+
+dataset = gdal.OpenEx(filename)
 md = dataset.GetMetadata('IMAGE_STRUCTURE')
 
 # Use dict.get method in case the metadata dict does not have a 'COMPRESSION' key
