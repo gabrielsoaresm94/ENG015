@@ -9,15 +9,14 @@ save = "./output"
 # Extracting the data from the red and near-infrared bands
 
 # filename = './input/camp.png' # Problem with PNG
-filename = './input/landsat.tif'
+filename = './input/PLANET.2019_07_20.tif'
 
 # Esta imagem tem apenas 3 band, portanto selecionei o index, dos últimos
 
 with rasterio.open(filename) as src:
-    band_red = src.read(2) # change for 2 
+    band_red = src.read(3)
 with rasterio.open(filename) as src:
-    band_nir = src.read(3) # change for 3
-
+    band_nir = src.read(4)
 # Calculating NDVI
 # Do not display error when divided by zero 
 
@@ -63,8 +62,8 @@ class MidpointNormalize(colors.Normalize):
 
 # Set min/max values from NDVI range for image
 
-min=0.2 # min=numpy.nanmin(ndvi)
-max=0.3 # max=numpy.nanmax(ndvi)
+min=numpy.nanmin(ndvi)
+max=numpy.nanmax(ndvi)
 
 # Set our custom midpoint for most effective NDVI analysis
 mid=0.1
@@ -92,7 +91,7 @@ cbar = fig.colorbar(cbar_plot, orientation='horizontal', shrink=0.65)
 if not os.path.exists(save):
     os.makedirs(save)
 
-fig.savefig("{}/ndvi-image.png".format(save), dpi=200, bbox_inches='tight', pad_inches=0.7)
+fig.savefig("{}/ndvi.png".format(save), dpi=200, bbox_inches='tight', pad_inches=0.7)
 
 # let's visualize
 plt.show()
