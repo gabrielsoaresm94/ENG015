@@ -19,6 +19,6 @@ WORKDIR /app
 COPY . /app
 WORKDIR /app
 
-EXPOSE 5000
+EXPOSE 8888
 
-CMD [ "python3", "./index.py" ]
+CMD jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root

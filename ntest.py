@@ -8,15 +8,16 @@ save = "./output"
 
 # Extracting the data from the red and near-infrared bands
 
-# filename = './input/camp.png' # Problem with PNG
-filename = './input/PLANET.2019_07_20.tif'
+filename = './input/PLANET.2019_01_25.tif'
 
 # Esta imagem tem apenas 3 band, portanto selecionei o index, dos últimos
 
 with rasterio.open(filename) as src:
     band_red = src.read(3)
+    print(src.profile)
 with rasterio.open(filename) as src:
     band_nir = src.read(4)
+    print(src.profile)
 # Calculating NDVI
 # Do not display error when divided by zero 
 
@@ -25,30 +26,12 @@ numpy.seterr(divide='ignore', invalid='ignore')
 # NDVI 
 ndvi = (band_nir.astype(float) - band_red.astype(float)) / (band_nir + band_red)
 print(ndvi)
-print(numpy.nanmin(ndvi)) 
-print(numpy.nanmax(ndvi))
+print('printando min: ',numpy.nanmin(ndvi)) 
+print('printando min: ',numpy.nanmax(ndvi))
 
-# get the metadata of original GeoTIFF:
-meta = src.meta
-print(meta)
+print(band_red)
+print(band_nir)
 
-# get the dtype of our NDVI array:
-ndvi_dtype = ndvi.dtype
-print(ndvi_dtype)
-
-# set the source metadata as kwargs we'll use to write the new data:
-kwargs = meta
-
-# update the 'dtype' value to match our NDVI array's dtype:
-kwargs.update(dtype=ndvi_dtype)
-
-# update the 'count' value since our output will no longer be a 4-band image:
-kwargs.update(count=1)
-
-# Finally, use rasterio to write new raster file 'data/ndvi.tif':
-# with rasterio.open('ndvi.tif', 'w', **kwargs) as dst:
-#     dst.write(ndvi, 1)
-# ?
 class MidpointNormalize(colors.Normalize):
    
     def __init__(self, vmin=None, vmax=None, midpoint=None, clip=False):
@@ -82,16 +65,16 @@ cbar_plot = ax.imshow(ndvi, cmap=colormap, vmin=min, vmax=max, norm=norm)
 ax.axis('off')
 
 # Set a title 
-ax.set_title('Normalized Difference Vegetation Index', fontsize=17, fontweight='bold')
+ax.set_title('Cálculo de NDVI', fontsize=17, fontweight='bold')
 
 # Configure the colorbar
-cbar = fig.colorbar(cbar_plot, orientation='horizontal', shrink=0.65)
+cbar = fig.colorbar(cbar_plot, shrink=0.65)
 
 # Call 'savefig' to save this plot to an image file
 if not os.path.exists(save):
     os.makedirs(save)
 
-fig.savefig("{}/ndvi.png".format(save), dpi=200, bbox_inches='tight', pad_inches=0.7)
+fig.savefig("{}/artigo_ssa#3.png".format(save), dpi=200, bbox_inches='tight', pad_inches=0.7)
 
 # let's visualize
 plt.show()
